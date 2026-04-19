@@ -4,7 +4,7 @@ Deeper questions for each of the seven analyses. Pull from these when the surfac
 
 ## Analysis 1 — Usage Forensics
 
-- What time of day did most chats happen? Does that match Sally's energy patterns (morning deep work vs. afternoon admin)?
+- What time of day did most chats happen? Does that match the user's energy patterns (morning deep work vs. afternoon admin)?
 - Were there days with zero usage? Why?
 - Which chats were single-shot (one question, one answer) vs. multi-turn? Ratio?
 - Did any chat span multiple sessions (came back to it later)?
@@ -19,11 +19,11 @@ Signals to look for in chat snippets:
 - "Can you start over" / "Redo this"
 - Repeated asks for the same output with slight tweaks (agent didn't get it right the first 3 times)
 - Long back-and-forth on small details (indicates specification gap)
-- Sally explaining the same context twice in one chat
-- Skill produced something, Sally edited heavily → quality gap in the skill
+- The user explaining the same context twice in one chat
+- Skill produced something, the user edited heavily → quality gap in the skill
 
 Root cause options:
-1. **Prompt quality** — Sally's initial ask was unclear
+1. **Prompt quality** — the user's initial ask was unclear
 2. **Skill quality** — skill fired but output missed
 3. **Skill description** — wrong skill fired or no skill fired
 4. **Missing context** — assistant needed info it didn't have (memory gap, preference gap)
@@ -33,18 +33,18 @@ Root cause options:
 ## Analysis 3 — Leverage Analysis
 
 High-leverage signals:
-- Output Sally used directly (published, shipped, sent)
+- Output the user used directly (published, shipped, sent)
 - Tasks that unlocked something else downstream
 - One-shot tasks that would have taken hours manually
 
 Low-leverage signals:
 - Exploration that didn't converge
 - Chats that ended without a clear output
-- Research that Sally didn't act on
+- Research the user didn't act on
 
 Automation candidates (3+ repeats = strong signal):
 - Same task type, different inputs, same output structure
-- Could be a script, a Make scenario, or a new skill
+- Could be a script, a scheduled automation, or a new skill
 - Estimate: how many minutes per run × how many times per month = hours saved per year
 
 Stale skills check:
@@ -54,56 +54,46 @@ Stale skills check:
 
 ## Analysis 4 — Strategic Drift
 
-Sally's stated priorities (from memory and preferences):
-- AdviserCMO launch (March 1, 2026 — now in post-launch momentum phase)
-- CFP infrastructure (content, automation, compliance)
-- Day job BI work + AI thought leadership + job security through skill-stacking
-- Personal: health, creative pursuits, reading
+Read the priority areas from `references/user-context.md`.
 
-Healthy allocation check (rough targets, not strict):
-- CFP client work: 40-50% (she's paid/owns this)
-- Day job: 20-30% (skill-stacking visible, not just hours)
-- AdviserCMO growth: 15-25% (post-launch, this should grow)
-- Personal: 5-10%
-
-Drift flags:
-- Zero CFP activity for a week → client relationship risk
-- Zero day job activity → job security risk (she's actively addressing this per memory)
-- 70%+ in one category → imbalance
+Healthy allocation check:
+- Use the user's stated target percentages as the baseline
+- Any priority at 0% for the week → flag it (was the silence intentional?)
+- Any priority taking 2x its target → flag it (crowding everything else?)
 - All reactive work, no strategic → no future pipeline being built
 
 What's NOT happening?
-- Is she building the next thing, or only running today's thing?
-- Any known upcoming deadlines she hasn't touched?
-- Any stated goals that haven't surfaced in chats recently?
+- Is the user building the next thing, or only running today's thing?
+- Any known upcoming deadlines that haven't surfaced?
+- Any stated goals that haven't been touched recently?
 
 ## Analysis 5 — Repeated Context Leaks
 
-When Sally types the same context into a fresh chat multiple times, that context should move to:
+When the user types the same context into a fresh chat multiple times, that context should move to:
 - **User preferences** — if it's a behavioral instruction (tone, format, always/never rules)
 - **Memory edit** — if it's a factual update (new role, new project, changed status)
 - **Skill** — if it's a workflow (same sequence of steps, same kind of output)
 - **Project instructions** — if it only applies in a specific context
 
 Examples of leaks:
-- "Jeff is the advisor at Chesapeake Financial Planners" typed in 3 chats this week → memory edit
-- "Use short sentences, no corny language" typed in 2 chats → already in preferences, so why did she type it? Preference is being ignored — investigate.
-- "Here's how our compliance pipeline works..." repeated in chats → skill candidate
+- A person's name + role typed into multiple chats → memory edit
+- "Use short sentences, no corny language" typed repeatedly → already in preferences, so why did the user type it? Preference is being ignored — investigate.
+- "Here's how our [workflow] works..." repeated in chats → skill candidate
 
 ## Analysis 6 — Accountability
 
 For each P1 from last week:
 - **Applied** — evidence exists (new skill referenced, behavior changed, routine triggered)
 - **Partial** — some but not all of the recommendation landed
-- **Ignored** — no evidence either way, Sally just didn't do it
-- **Rejected** — Sally actively pushed back in a chat ("I don't want to build that")
+- **Ignored** — no evidence either way, the user just didn't do it
+- **Rejected** — the user actively pushed back in a chat ("I don't want to build that")
 
-Escalation rules:
+Escalation rules (adjust based on the user's accountability preference in `user-context.md`):
 - 1st week ignored: note it matter-of-factly
 - 2nd week ignored: ask "is this worth doing?" — maybe the recommendation was wrong
 - 3rd week ignored: either demote to P3 or drop entirely. The recommendation failed.
 
-Never shame. But don't pretend. Sally asked for 1% performer treatment.
+Never shame. But don't pretend. Direct users asked for direct treatment.
 
 ## Analysis 7 — The Three Moves
 
@@ -117,9 +107,9 @@ Selection criteria:
 Bad moves:
 - "Build better skills" — too vague
 - "Consider adding a trigger phrase" — hedge words
-- "Set up a Make scenario for [complex thing]" — too big
+- "Set up a scheduled automation for [complex thing]" — too big
 
 Good moves:
-- "Add 'weekly review' to the cfp-content-intelligence skill description to fix the 2 missed triggers this week"
-- "Delete memory line: 'User is planning to launch AdviserCMO March 1, 2026' — it launched, update to reflect post-launch state"
-- "Create a 3-line user preference: 'When I ask for a Notion database update, always show me the diff before applying it' — would have prevented Wednesday's rollback"
+- "Add the phrase 'weekly review' to [skill-name]'s description to fix the 2 missed triggers this week"
+- "Delete the memory line about [stale event] — it already happened; update to reflect current state"
+- "Create a user preference: 'When asked to update a database, always show the diff before applying' — would have prevented Wednesday's rollback"
