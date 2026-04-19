@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Tune-Up — {{WEEK_OF}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --navy: #0A1628;
+    --navy-light: #142238;
+    --navy-border: #1e3352;
+    --blue: #0171bb;
+    --blue-light: #3aa0e6;
+    --orange: #fa8128;
+    --orange-dim: #c86420;
+    --grey: #929292;
+    --grey-light: #b8b8b8;
+    --off-white: #F5F5F0;
+    --success: #4ade80;
+    --danger: #f87171;
+    --warning: #facc15;
+  }
+
+  html, body {
+    background: var(--navy);
+    color: var(--off-white);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-weight: 400;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  body {
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(1, 113, 187, 0.08), transparent 40%),
+      radial-gradient(circle at 80% 90%, rgba(250, 129, 40, 0.06), transparent 40%);
+    background-attachment: fixed;
+  }
+
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 80px 40px 120px;
+  }
+
+  .header {
+    border-bottom: 1px solid var(--navy-border);
+    padding-bottom: 48px;
+    margin-bottom: 64px;
+  }
+
+  .eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 20px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--off-white);
+    margin-bottom: 20px;
+  }
+
+  h1 em { color: var(--orange); font-style: italic; }
+
+  .subtitle {
+    font-size: 18px;
+    color: var(--grey-light);
+    font-weight: 300;
+    max-width: 640px;
+  }
+
+  .meta {
+    margin-top: 32px;
+    display: flex;
+    gap: 32px;
+    font-size: 13px;
+    color: var(--grey);
+    flex-wrap: wrap;
+  }
+
+  .meta-item strong { color: var(--off-white); font-weight: 500; }
+
+  .one-sentence {
+    background: linear-gradient(135deg, rgba(1, 113, 187, 0.12), rgba(250, 129, 40, 0.06));
+    border-left: 3px solid var(--orange);
+    padding: 40px 48px;
+    margin-bottom: 80px;
+    border-radius: 2px;
+  }
+
+  .one-sentence-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 16px;
+  }
+
+  .one-sentence-text {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 28px;
+    line-height: 1.4;
+    font-weight: 400;
+    color: var(--off-white);
+    font-style: italic;
+  }
+
+  section { margin-bottom: 96px; }
+
+  .section-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--grey);
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--off-white);
+    margin-bottom: 12px;
+  }
+
+  .section-desc {
+    font-size: 15px;
+    color: var(--grey-light);
+    font-weight: 300;
+    margin-bottom: 40px;
+    max-width: 640px;
+  }
+
+  .moves-grid { display: flex; flex-direction: column; gap: 20px; }
+
+  .move {
+    background: var(--navy-light);
+    border: 1px solid var(--navy-border);
+    padding: 32px 36px;
+    border-radius: 4px;
+    position: relative;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .move:hover { transform: translateX(4px); border-color: var(--orange); }
+
+  .move-rank {
+    position: absolute;
+    top: 24px;
+    right: 32px;
+    font-family: 'Playfair Display', serif;
+    font-size: 72px;
+    font-weight: 700;
+    color: var(--navy-border);
+    line-height: 1;
+  }
+
+  .move-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--orange);
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+
+  .move-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--off-white);
+    margin-bottom: 16px;
+    padding-right: 80px;
+  }
+
+  .move-why {
+    font-size: 14px;
+    color: var(--grey-light);
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  .move-action {
+    font-size: 14px;
+    color: var(--off-white);
+    padding-top: 20px;
+    border-top: 1px solid var(--navy-border);
+  }
+
+  .move-action strong { color: var(--orange); font-weight: 600; }
+
+  .scorecard {
+    background: var(--navy-light);
+    border: 1px solid var(--navy-border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .scorecard-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 24px;
+    padding: 24px 32px;
+    border-bottom: 1px solid var(--navy-border);
+    align-items: center;
+  }
+
+  .scorecard-row:last-child { border-bottom: none; }
+
+  .verdict {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  .verdict.applied { background: rgba(74, 222, 128, 0.12); color: var(--success); border: 1px solid rgba(74, 222, 128, 0.3); }
+  .verdict.partial { background: rgba(250, 204, 21, 0.12); color: var(--warning); border: 1px solid rgba(250, 204, 21, 0.3); }
+  .verdict.ignored { background: rgba(248, 113, 113, 0.12); color: var(--danger); border: 1px solid rgba(248, 113, 113, 0.3); }
+  .verdict.rejected { background: rgba(146, 146, 146, 0.12); color: var(--grey); border: 1px solid rgba(146, 146, 146, 0.3); }
+
+  .scorecard-item { font-size: 15px; color: var(--off-white); }
+  .scorecard-item .sub { font-size: 12px; color: var(--grey); margin-top: 4px; }
+
+  .scorecard-age {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--grey);
+  }
+
+  .friction-item {
+    padding: 24px 0;
+    border-bottom: 1px solid var(--navy-border);
+  }
+  .friction-item:last-child { border-bottom: none; }
+
+  .friction-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .friction-title { font-size: 17px; font-weight: 600; color: var(--off-white); }
+
+  .friction-cost {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--orange);
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+
+  .friction-evidence {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    background: var(--navy-light);
+    padding: 14px 18px;
+    border-radius: 3px;
+    color: var(--grey-light);
+    border-left: 2px solid var(--blue);
+    margin: 12px 0;
+  }
+
+  .friction-cause { font-size: 14px; color: var(--grey-light); }
+  .friction-cause strong { color: var(--off-white); font-weight: 500; }
+
+  .leverage-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+  @media (max-width: 720px) {
+    .leverage-grid { grid-template-columns: 1fr; }
+  }
+
+  .leverage-card {
+    background: var(--navy-light);
+    border: 1px solid var(--navy-border);
+    padding: 28px;
+    border-radius: 4px;
+  }
+
+  .leverage-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    color: var(--off-white);
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  .leverage-card ul { list-style: none; }
+
+  .leverage-card li {
+    padding: 10px 0;
+    font-size: 14px;
+    color: var(--grey-light);
+    border-bottom: 1px dashed var(--navy-border);
+  }
+  .leverage-card li:last-child { border-bottom: none; }
+  .leverage-card li strong { color: var(--off-white); font-weight: 500; }
+
+  .count-badge {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    background: var(--orange);
+    color: var(--navy);
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-left: 8px;
+    font-weight: 600;
+  }
+
+  .skill-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+
+  .skill-table th {
+    text-align: left;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--grey);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--navy-border);
+    font-weight: 500;
+  }
+
+  .skill-table td {
+    padding: 16px;
+    border-bottom: 1px solid var(--navy-border);
+    color: var(--grey-light);
+  }
+
+  .skill-table td strong { color: var(--off-white); font-weight: 500; }
+
+  .skill-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 2px;
+    letter-spacing: 1px;
+  }
+
+  .skill-status.firing { background: rgba(74, 222, 128, 0.12); color: var(--success); }
+  .skill-status.missed { background: rgba(248, 113, 113, 0.12); color: var(--danger); }
+  .skill-status.stale { background: rgba(146, 146, 146, 0.12); color: var(--grey); }
+
+  .drift-bars { display: flex; flex-direction: column; gap: 20px; }
+
+  .drift-row {
+    display: grid;
+    grid-template-columns: 180px 1fr auto;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .drift-label { font-size: 14px; color: var(--off-white); font-weight: 500; }
+  .drift-label .target { font-size: 11px; color: var(--grey); font-weight: 400; display: block; margin-top: 2px; }
+
+  .drift-bar-bg {
+    height: 8px;
+    background: var(--navy-light);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .drift-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--blue), var(--blue-light));
+    border-radius: 4px;
+    transition: width 0.6s;
+  }
+
+  .drift-bar-fill.warning { background: linear-gradient(90deg, var(--orange-dim), var(--orange)); }
+
+  .drift-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--off-white);
+    font-weight: 500;
+    min-width: 42px;
+    text-align: right;
+  }
+
+  .drift-note {
+    margin-top: 24px;
+    padding: 20px 24px;
+    background: var(--navy-light);
+    border-left: 2px solid var(--orange);
+    font-size: 14px;
+    color: var(--grey-light);
+    border-radius: 2px;
+  }
+
+  .drift-note strong { color: var(--off-white); }
+
+  .kill-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .kill-list li {
+    padding: 16px 20px;
+    background: var(--navy-light);
+    border-left: 2px solid var(--danger);
+    font-size: 14px;
+    color: var(--grey-light);
+    border-radius: 2px;
+  }
+
+  .kill-list li strong { color: var(--off-white); font-weight: 500; }
+
+  .change-block {
+    background: var(--navy-light);
+    border: 1px solid var(--navy-border);
+    border-radius: 4px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .change-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--navy-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.2);
+  }
+
+  .change-title { font-size: 14px; font-weight: 500; color: var(--off-white); }
+
+  .change-type {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--blue-light);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .change-body {
+    padding: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--off-white);
+    white-space: pre-wrap;
+    line-height: 1.6;
+    overflow-x: auto;
+  }
+
+  .change-body .diff-add { color: var(--success); }
+  .change-body .diff-remove { color: var(--danger); text-decoration: line-through; opacity: 0.7; }
+  .change-body .comment { color: var(--grey); font-style: italic; }
+
+  .empty-state {
+    padding: 24px;
+    background: var(--navy-light);
+    border-radius: 4px;
+    color: var(--grey);
+    font-style: italic;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .footer {
+    margin-top: 120px;
+    padding-top: 40px;
+    border-top: 1px solid var(--navy-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--grey);
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-mark {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--grey-light);
+  }
+
+  @media (max-width: 640px) {
+    .container { padding: 48px 24px 80px; }
+    h1 { font-size: 42px; }
+    h2 { font-size: 32px; }
+    .one-sentence { padding: 28px 28px; }
+    .one-sentence-text { font-size: 22px; }
+    .move { padding: 24px; }
+    .move-rank { font-size: 48px; top: 16px; right: 20px; }
+    .move-title { padding-right: 60px; font-size: 18px; }
+    .drift-row { grid-template-columns: 1fr; gap: 8px; }
+    .drift-pct { text-align: left; }
+    .scorecard-row { grid-template-columns: 1fr; gap: 12px; }
+  }
+
+  @media print {
+    body { background: white; color: #0A1628; }
+    .container { padding: 20px; }
+    section { page-break-inside: avoid; margin-bottom: 40px; }
+    h1, h2 { color: #0A1628; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <header class="header">
+    <div class="eyebrow">Weekly Tune-Up</div>
+    <h1>Week of <em>{{WEEK_OF}}</em></h1>
+    <p class="subtitle">{{INTRO_SENTENCE}}</p>
+    <div class="meta">
+      <div class="meta-item"><strong>{{CHAT_COUNT}}</strong> chats reviewed</div>
+      <div class="meta-item"><strong>{{SKILL_FIRE_COUNT}}</strong> skill fires</div>
+      <div class="meta-item"><strong>{{FRICTION_COUNT}}</strong> friction points</div>
+      <div class="meta-item">Generated <strong>{{GENERATED_DATE}}</strong></div>
+    </div>
+  </header>
+
+  <div class="one-sentence">
+    <div class="one-sentence-label">The Week in One Sentence</div>
+    <p class="one-sentence-text">{{ONE_SENTENCE}}</p>
+  </div>
+
+  <section>
+    <div class="section-number">01 / 08</div>
+    <h2>The Three Moves</h2>
+    <p class="section-desc">The only changes worth making this week. Each takes under 30 minutes. Every one tied to something that actually happened.</p>
+    <div class="moves-grid">{{TOP_3_MOVES}}</div>
+  </section>
+
+  <section>
+    <div class="section-number">02 / 08</div>
+    <h2>Last Week's Scorecard</h2>
+    <p class="section-desc">Did last week's recommendations actually land? Evidence-based only.</p>
+    <div class="scorecard">{{SCORECARD_ROWS}}</div>
+  </section>
+
+  <section>
+    <div class="section-number">03 / 08</div>
+    <h2>Friction Log</h2>
+    <p class="section-desc">Where conversations went sideways. Each has a root cause and a fix.</p>
+    {{FRICTION_ITEMS}}
+  </section>
+
+  <section>
+    <div class="section-number">04 / 08</div>
+    <h2>Leverage Map</h2>
+    <p class="section-desc">What drove the most output. What should be automated. What can be deleted.</p>
+    <div class="leverage-grid">
+      <div class="leverage-card">
+        <h3>High-Leverage Wins</h3>
+        <ul>{{HIGH_LEVERAGE_LIST}}</ul>
+      </div>
+      <div class="leverage-card">
+        <h3>Automation Candidates</h3>
+        <ul>{{AUTOMATION_LIST}}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-number">05 / 08</div>
+    <h2>Skill Performance</h2>
+    <p class="section-desc">Which skills fired. Which should have fired but didn't. Which are gathering dust.</p>
+    <table class="skill-table">
+      <thead>
+        <tr><th>Skill</th><th>Fires</th><th>Status</th><th>Note</th></tr>
+      </thead>
+      <tbody>{{SKILL_ROWS}}</tbody>
+    </table>
+  </section>
+
+  <section>
+    <div class="section-number">06 / 08</div>
+    <h2>Strategic Drift Check</h2>
+    <p class="section-desc">Where assistant time went vs. where it should have gone based on stated priorities.</p>
+    <div class="drift-bars">{{DRIFT_BARS}}</div>
+    <div class="drift-note">{{DRIFT_NOTE}}</div>
+  </section>
+
+  <section>
+    <div class="section-number">07 / 08</div>
+    <h2>Kill List</h2>
+    <p class="section-desc">Stop doing these. Delete these. Archive these. No replacement needed.</p>
+    <ul class="kill-list">{{KILL_LIST_ITEMS}}</ul>
+  </section>
+
+  <section>
+    <div class="section-number">08 / 08</div>
+    <h2>Proposed Changes</h2>
+    <p class="section-desc">Copy-paste ready. Skill edits, memory updates, new routines. Specific, not generic.</p>
+    {{PROPOSED_CHANGES}}
+  </section>
+
+  <footer class="footer">
+    <div><span class="footer-mark">Weekly Tune-Up</span> · Sally Estrada · Report #{{REPORT_NUMBER}}</div>
+    <div>Next review: {{NEXT_REVIEW}}</div>
+  </footer>
+
+</div>
+</body>
+</html>
