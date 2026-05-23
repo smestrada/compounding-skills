@@ -18,6 +18,30 @@ Audits your last 7 days of Claude usage and produces a premium HTML dashboard wi
 
 [→ Read the full docs](./weekly-tune-up/README.md) · [→ Download the .skill file](../../releases)
 
+### [gmail-daily-briefing](./gmail-daily-briefing)
+
+Reads your Gmail inbox and delivers a focused daily briefing that separates signal from noise — surfacing the emails actually worth reading and flagging the rest as clutter to dismiss. Triggered by "check my email", "what did I miss", "triage my inbox", or any ask for an email digest.
+
+*Compounds by learning what you treat as signal vs. noise over time, so each briefing gets sharper than the last.*
+
+[→ Read the full docs](./gmail-daily-briefing/README.md)
+
+### [commit-safe](./commit-safe)
+
+A conservative pre-commit reviewer. Inspects uncommitted changes, flags hazards (secrets, `.env` files, generated artifacts, debug code, unrelated churn), drafts a Conventional Commit message, and waits for explicit approval before running any `git` command. Pairs with `commit-push-pr` when you also want to push and open a PR.
+
+*Compounds by replacing the manual "did I leave a `console.log` or an API key in this diff?" check you'd otherwise redo on every commit.*
+
+[→ Read the skill](./commit-safe/SKILL.md)
+
+### [commit-push-pr](./commit-push-pr)
+
+Extends `commit-safe` end-to-end: runs available project validation (tests, lint, typecheck), drafts both a Conventional Commit message and a full PR package (title, summary, validation notes, risk notes), then uses a two-stage approval gate — approve the commit first, then approve the push + PR. Refuses force-push and requires explicit confirmation before pushing to `main` or `master`.
+
+*Compounds by turning "ship this" into a single trusted workflow instead of a sequence of manual steps you have to remember each time.*
+
+[→ Read the skill](./commit-push-pr/SKILL.md)
+
 ---
 
 ## How to install a skill
